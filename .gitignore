@@ -1,0 +1,14 @@
+bin/
+models/
+data/
+kb_data/
+index/
+*.gguf
+*.safetensors
+*.tar
+*.tar.gz
+.venv/
+__pycache__/
+*.pyc
+logs/
+.env
