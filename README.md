@@ -92,3 +92,9 @@ beat raw Bielik on held-out papers and are therefore not in the final; the repor
 - **Development:** Claude (Claude Code) was used as a coding agent and as the blind examiner for evaluation. No closed
   model is called while the exam runs.
 - Sources and licences in detail: `DATA_SOURCES.md`.
+
+## "Mały, ale wariat" (smallest model passing 35%)
+
+Separate entry: Bielik-4.5B-v3.0-Instruct **i1-IQ4_XS (2.56 GB)** + the essay harness. Results, model links, sha256 and
+the exact commands are in [`maly/README.md`](maly/README.md); scripts in `maly/scripts/`, the harness/KB code used by those
+runs in `maly/code/`.
