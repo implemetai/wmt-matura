@@ -25,6 +25,9 @@ Nothing calls a closed API at exam time; the whole run is local (llama.cpp) and 
 Why this split: on CKE papers we did not tune on, the harness helped only the essay; on short items raw Bielik was as
 good or better (details in `docs/final_config.md`).
 
+**For the final day:** `FINAL_RUNBOOK.md` (step-by-step, Polish) and `PRESENTATION.md` (talking points).
+**Weights and the prebuilt knowledge base:** https://huggingface.co/zeemowo/vibers-wmt-matura (exact files we run, sha256-pinned) — `scripts/download_models.sh` fetches and verifies everything.
+
 ## Run the final
 
 ```bash
@@ -34,14 +37,16 @@ It starts the vision server, describes every image, stops it, starts the reranke
 items, validates the file against the template and prints the `answers.json` path. A full run of the 2023 mock takes
 about 3.5 minutes on an L40S. Paths and ports are env-overridable (see the header of the script).
 
-Prerequisites (all offline once downloaded):
+The untouched base benchmark on the same pack (the organizers compute progress against it): `scripts/run_final_base.sh PKG_DIR [OUT_DIR]`.
+
+Prerequisites (all offline once downloaded; `scripts/download_models.sh` gets the four model files and the index from Hugging Face):
 
 | Component | File | Source | License |
 |---|---|---|---|
 | Answering model | `Bielik-4.5B-v3.0-Instruct.Q8_0.gguf` (5.06 GB, sha256 `562f2291de257890adf2b4a914da8b194affe6a7a838a6b7ef3d342f306c1b7f`) | speakleash/Bielik-4.5B-v3.0-Instruct-GGUF | Apache-2.0 |
 | Vision model | `Qwen3.5-9B-Q5_K_M.gguf` + `mmproj-F16.gguf` (7.50 GB together) | unsloth/Qwen3.5-9B-GGUF | Apache-2.0 |
 | Reranker | `bge-reranker-v2-m3-Q8_0.gguf` | BAAI/bge-reranker-v2-m3 (GGUF) | Apache-2.0 |
-| Knowledge base | BM25 index over plwiki CirrusSearch dump 2025-12-29 (3,446,110 chunks) | built by `kb/run_all.sh` | CC BY-SA 4.0 (Wikipedia) |
+| Knowledge base | BM25 index over plwiki CirrusSearch dump 2025-12-29 (3,446,110 chunks, 5.4 GB) | prebuilt in zeemowo/vibers-wmt-matura `kb_index/`, or rebuild with `kb/run_all.sh` | CC BY-SA 4.0 (Wikipedia) |
 | Runtime | llama.cpp b11185 (CUDA), Python 3.12 + `docker/requirements.txt` | ggml-org/llama.cpp | MIT |
 
 Every model is ≤ 8 GB. Exact files, revisions and checksums of the vision candidates: `docs/vlm_candidates_manifest.json`.
